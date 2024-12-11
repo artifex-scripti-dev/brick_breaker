@@ -1,3 +1,4 @@
+import 'package:brick_breaker/src/config.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
@@ -30,6 +31,11 @@ class Ball extends CircleComponent
   void update(double dt) {
     super.update(dt);
     position += velocity * dt;
+
+    if (position.y > gameHeight) {
+      removeFromParent();
+      (game).updateGameState();
+    }
   }
 
   @override

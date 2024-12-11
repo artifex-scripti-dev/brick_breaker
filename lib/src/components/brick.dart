@@ -6,6 +6,7 @@ import '../brick_breaker.dart';
 import '../config.dart';
 import 'ball.dart';
 import 'bat.dart';
+import 'power_up.dart';
 
 class Brick extends RectangleComponent
     with CollisionCallbacks, HasGameReference<BrickBreaker> {
@@ -26,6 +27,12 @@ class Brick extends RectangleComponent
     removeFromParent();
     game.score.value++;
 
+
+    if (game.rand.nextDouble() < 1) { // 100% chance to spawn a power-up
+      final powerUpType = PowerUpType.values[game.rand.nextInt(PowerUpType.values.length)];
+      game.world.add(PowerUp(type: powerUpType, position: position.clone()..y += 30));
+    
+    }
     if (game.world.children.query<Brick>().length == 1) {
       game.playState = PlayState.won; 
       game.world.removeAll(game.world.children.query<Ball>());

@@ -50,7 +50,6 @@ class BrickBreaker extends FlameGame
     camera.viewfinder.anchor = Anchor.topLeft;
 
     world.add(PlayArea());
-
     playState = PlayState.welcome;
   }
 
@@ -63,6 +62,7 @@ class BrickBreaker extends FlameGame
 
     playState = PlayState.playing;
     score.value = 0;
+    activeBalls = 1;
 
     world.add(Ball(
         difficultyModifier: difficultyModifier,
@@ -70,7 +70,7 @@ class BrickBreaker extends FlameGame
         position: size / 2,
         velocity: Vector2((rand.nextDouble() - 0.5) * width, height * 0.2)
             .normalized()
-          ..scale(height / 4)));
+          ..scale(height / 3)));
 
     world.add(Bat(
         size: Vector2(batWidth, batHeight),
@@ -94,6 +94,40 @@ class BrickBreaker extends FlameGame
   void onTap() {
     super.onTap();
     startGame();
+  }
+
+  int activeBalls = 0;
+
+  void onBallRemoved() {
+    activeBalls--;
+    if (activeBalls == 0) {
+        playState = PlayState.gameOver;
+    }
+}
+
+void spawnBall() {
+    activeBalls++;
+}
+  void updateGameState() {
+    final activeBalls = world.children.query<Ball>();
+    if (activeBalls.isEmpty) {
+        playState = PlayState.gameOver;
+    }
+}
+
+  void spawnMultipleBalls(
+      int count, Vector2 position, Vector2 initialVelocity) {
+    for (int i = 0; i < count; i++) {
+      final ball = Ball(
+        position: position + Vector2(i * 20, 0), // Adjust position to avoid overlap
+        velocity: Vector2((rand.nextDouble() - 0.5) * width, height * 0.2)
+            .normalized()
+          ..scale(height / 3),
+        radius: ballRadius,
+        difficultyModifier: difficultyModifier, // Set difficulty modifier as needed
+      );
+      world.add(ball); // Add the ball to the game world
+    }
   }
 
   @override
