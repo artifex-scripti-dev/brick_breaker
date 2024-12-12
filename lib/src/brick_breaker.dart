@@ -70,7 +70,7 @@ class BrickBreaker extends FlameGame
         position: size / 2,
         velocity: Vector2((rand.nextDouble() - 0.5) * width, height * 0.2)
             .normalized()
-          ..scale(height / 3)));
+          ..scale(height / 2))); //speed
 
     world.add(Bat(
         size: Vector2(batWidth, batHeight),
@@ -119,12 +119,12 @@ void spawnBall() {
       int count, Vector2 position, Vector2 initialVelocity) {
     for (int i = 0; i < count; i++) {
       final ball = Ball(
-        position: position + Vector2(i * 20, 0), // Adjust position to avoid overlap
+        position: position + Vector2(i * 20, 0),
         velocity: Vector2((rand.nextDouble() - 0.5) * width, height * 0.2)
             .normalized()
           ..scale(height / 3),
         radius: ballRadius,
-        difficultyModifier: difficultyModifier, // Set difficulty modifier as needed
+        difficultyModifier: difficultyModifier,
       );
       world.add(ball); // Add the ball to the game world
     }

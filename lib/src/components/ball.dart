@@ -32,7 +32,7 @@ class Ball extends CircleComponent
     super.update(dt);
     position += velocity * dt;
 
-    if (position.y > gameHeight) {
+    if (position.x > gameHeight) {
       removeFromParent();
       (game).updateGameState();
     }
