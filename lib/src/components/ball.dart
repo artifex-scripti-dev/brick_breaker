@@ -34,7 +34,6 @@ class Ball extends CircleComponent
 
     if (position.x > gameHeight) {
       removeFromParent();
-      (game).updateGameState();
     }
   }
 
@@ -53,7 +52,11 @@ class Ball extends CircleComponent
         add(RemoveEffect(
             delay: 0.35,
             onComplete: () {
-              game.playState = PlayState.gameOver;
+              removeFromParent(); // Remove the ball
+              game.activeBallCount--; // Decrement the counter
+              if (game.activeBallCount <= 0) {
+                game.playState = PlayState.gameOver;
+              }
             }));
       }
     } else if (other is Bat) {
