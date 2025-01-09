@@ -52,7 +52,7 @@ class Brick extends RectangleComponent
         game.score.value++;
 
         // Spawn power-up based on chance
-        if (game.rand.nextDouble() < 1) { // 10% chance to spawn a power-up
+        if (game.rand.nextDouble() < 0.15) { // 15% chance to spawn a power-up
           final powerUpType = PowerUpType.values[game.rand.nextInt(PowerUpType.values.length)];
           game.world.add(PowerUp(type: powerUpType, position: position.clone()..y += 30));
         }
