@@ -123,7 +123,7 @@ class BrickBreaker extends FlameGame
         difficultyModifier: difficultyModifier,
       );
       world.add(ball);
-      activeBallCount++; // Increment counter
+      activeBallCount++;
       print('Ball spawned, activeBallCount: $activeBallCount');
     }
   }

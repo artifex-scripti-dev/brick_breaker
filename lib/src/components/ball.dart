@@ -23,7 +23,16 @@ class Ball extends CircleComponent
           paint: Paint()
             ..color = const Color(0xFF12851D)
             ..style = PaintingStyle.fill,
-          children: [CircleHitbox()],
+          children: [
+            CircleComponent(
+              radius: radius,
+              paint: Paint()
+                ..color = Colors.white
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = 3,
+            ),
+            CircleHitbox(),
+          ],
         );
 
   final Vector2 velocity;
@@ -54,8 +63,8 @@ class Ball extends CircleComponent
     game.world.add(trail);
 
     if (position.y > game.height) {
-      removeFromParent(); // Remove the ball
-      game.activeBallCount--; // Decrement ball count
+      removeFromParent();
+      game.activeBallCount--;
 
       if (game.activeBallCount <= 0) {
         game.playState = PlayState.gameOver;

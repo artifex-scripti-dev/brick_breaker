@@ -24,9 +24,9 @@ class Bat extends PositionComponent
     ..style = PaintingStyle.fill;
 
   final _borderPaint = Paint()
-    ..color = Colors.white // Set border color
+    ..color = Colors.white
     ..style = PaintingStyle.stroke
-    ..strokeWidth = 3.0; // Adjust thickness
+    ..strokeWidth = 5.0;
 
   @override
   void render(Canvas canvas) {
@@ -37,8 +37,8 @@ class Bat extends PositionComponent
       cornerRadius,
     );
 
-    canvas.drawRRect(rrect, _fillPaint); // Draw fill
-    canvas.drawRRect(rrect, _borderPaint); // Draw border
+    canvas.drawRRect(rrect, _fillPaint);
+    canvas.drawRRect(rrect, _borderPaint);
   }
 
   @override
