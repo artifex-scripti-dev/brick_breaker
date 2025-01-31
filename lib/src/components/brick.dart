@@ -1,5 +1,6 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
 import 'package:flame_audio/flame_audio.dart';
 
@@ -15,11 +16,11 @@ class Brick extends RectangleComponent
   final int maxHealth;
 
   final Paint _borderPaint = Paint()
-    ..color = Colors.white // Border color
+    ..color = Colors.white
     ..style = PaintingStyle.stroke
     ..strokeWidth = 3.0;
 
-  final Paint _fillPaint; // Fill color
+  final Paint _fillPaint;
 
   Brick({
     required super.position,
@@ -66,7 +67,15 @@ class Brick extends RectangleComponent
 
       if (health <= 0) {
         FlameAudio.play('sfx/block_destroyed.mp3');
-        removeFromParent();
+
+        final fallDistance = game.size.y - position.y;
+        add(
+          MoveByEffect(
+            Vector2(0, fallDistance),
+            EffectController(duration: 1.0, curve: Curves.easeIn),
+            onComplete: () => removeFromParent(),
+          ),
+        );
         game.score.value++;
 
         if (game.rand.nextDouble() < 0.15) {
