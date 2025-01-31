@@ -5,6 +5,7 @@
 
 ## 🖍 Project Overview  
 This is a **Brick Breaker** game built using **Flutter** and the **Flame Engine**. The game showcases interactive gameplay mechanics, collision detection, and dynamic ball and paddle controls. It was created as part of an **Advanced Game Development** course to demonstrate proficiency in game development concepts, physics-based interactions, and event-driven programming.
+https://codelabs.developers.google.com/codelabs/flutter-flame-brick-breaker
 
 ---
 
