@@ -1,5 +1,6 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 
 import '../brick_breaker.dart';
@@ -47,6 +48,7 @@ class PowerUp extends PositionComponent with CollisionCallbacks, HasGameReferenc
     super.onCollisionStart(intersectionPoints, other);
     if (other is Bat) {
       _applyEffect(other);
+      FlameAudio.play('sfx/powerup.mp3');
       removeFromParent();
     }
   }
@@ -61,6 +63,13 @@ class PowerUp extends PositionComponent with CollisionCallbacks, HasGameReferenc
         break;
       case PowerUpType.smallerBat:
         bat.size.x *= 0.8;
+        game.add(
+          TimerComponent(
+        period: 5,
+        removeOnFinish: true,
+        onTick: () => bat.size.x /= 0.8,
+          ),
+        );
         break;
       case PowerUpType.multiBall:
         game.spawnMultipleBalls(1, bat.position, Vector2(0, 200));

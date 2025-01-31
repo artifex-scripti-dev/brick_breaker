@@ -19,19 +19,26 @@ class Bat extends PositionComponent
 
   final Radius cornerRadius;
 
-  final _paint = Paint()
-    ..color = const Color(0xff1e6091)
+  final _fillPaint = Paint()
+    ..color = const Color(0xFF12851D)
     ..style = PaintingStyle.fill;
+
+  final _borderPaint = Paint()
+    ..color = Colors.white // Set border color
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = 3.0; // Adjust thickness
 
   @override
   void render(Canvas canvas) {
     super.render(canvas);
-    canvas.drawRRect(
-        RRect.fromRectAndRadius(
-          Offset.zero & size.toSize(),
-          cornerRadius,
-        ),
-        _paint);
+
+    final rrect = RRect.fromRectAndRadius(
+      Offset.zero & size.toSize(),
+      cornerRadius,
+    );
+
+    canvas.drawRRect(rrect, _fillPaint); // Draw fill
+    canvas.drawRRect(rrect, _borderPaint); // Draw border
   }
 
   @override

@@ -37,14 +37,7 @@ class _GameAppState extends State<GameApp> {
       home: Scaffold(
         body: Container(
           decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color(0xffa9d6e5),
-                Color(0xfff2e8cf),
-              ],
-            ),
+            color: Color.fromARGB(255, 27, 27, 27),
           ),
           child: SafeArea(
             child: Padding(

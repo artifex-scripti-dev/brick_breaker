@@ -1,7 +1,8 @@
-import 'package:brick_breaker/src/config.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
+import 'package:flame/particles.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 
 import '../brick_breaker.dart';
@@ -17,12 +18,13 @@ class Ball extends CircleComponent
     required double radius,
     required this.difficultyModifier,
   }) : super(
-            radius: radius,
-            anchor: Anchor.center,
-            paint: Paint()
-              ..color = const Color(0xff1e6091)
-              ..style = PaintingStyle.fill,
-            children: [CircleHitbox()]);
+          radius: radius,
+          anchor: Anchor.center,
+          paint: Paint()
+            ..color = const Color(0xFF12851D)
+            ..style = PaintingStyle.fill,
+          children: [CircleHitbox()],
+        );
 
   final Vector2 velocity;
   final double difficultyModifier;
@@ -32,8 +34,33 @@ class Ball extends CircleComponent
     super.update(dt);
     position += velocity * dt;
 
-    if (position.x > gameHeight) {
-      removeFromParent();
+    // Ensure the trail is properly positioned
+    final trail = ParticleSystemComponent(
+      position: position.clone(),
+      particle: Particle.generate(
+        count: 1,
+        lifespan: 0.1,
+        generator: (i) => AcceleratedParticle(
+          acceleration: Vector2(0, 10),
+          position: Vector2.zero(),
+          child: CircleParticle(
+            radius: radius * 0.6,
+            paint: Paint()..color = const Color(0x6812851D),
+          ),
+        ),
+      ),
+    );
+
+    game.world.add(trail);
+
+    if (position.y > game.height) {
+      removeFromParent(); // Remove the ball
+      game.activeBallCount--; // Decrement ball count
+
+      if (game.activeBallCount <= 0) {
+        game.playState = PlayState.gameOver;
+        FlameAudio.play('sfx/game_over.mp3');
+      }
     }
   }
 
@@ -52,8 +79,8 @@ class Ball extends CircleComponent
         add(RemoveEffect(
             delay: 0.35,
             onComplete: () {
-              removeFromParent(); // Remove the ball
-              game.activeBallCount--; // Decrement the counter
+              removeFromParent();
+              game.activeBallCount--;
               if (game.activeBallCount <= 0) {
                 game.playState = PlayState.gameOver;
               }
