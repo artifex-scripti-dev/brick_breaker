@@ -4,9 +4,9 @@ import 'dart:math' as math;
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'components/components.dart';
 import 'config.dart';
 
@@ -50,14 +50,22 @@ class BrickBreaker extends FlameGame
   FutureOr<void> onLoad() async {
     super.onLoad();
 
-    camera.viewfinder.anchor = Anchor.topLeft;
 
+    FlameAudio.audioCache.loadAll([
+      'sfx/ball_hit.wav',
+      'sfx/block_destroyed.mp3',
+      'sfx/powerup.mp3',
+      'sfx/game_over.wav',
+    ]);
+
+    camera.viewfinder.anchor = Anchor.topLeft;
     world.add(PlayArea());
     playState = PlayState.welcome;
   }
 
   void startGame() {
     if (playState == PlayState.playing) return;
+    
 
     world.removeAll(world.children.query<Ball>());
     world.removeAll(world.children.query<Bat>());
@@ -66,7 +74,6 @@ class BrickBreaker extends FlameGame
     activeBallCount = 0;
     playState = PlayState.playing;
     score.value = 0;
-    
 
     world.add(Ball(
       difficultyModifier: difficultyModifier,
@@ -80,7 +87,7 @@ class BrickBreaker extends FlameGame
 
     world.add(Bat(
       size: Vector2(batWidth, batHeight),
-      cornerRadius: const Radius.circular(ballRadius / 2),
+      cornerRadius: const Radius.circular(ballRadius / 1),
       position: Vector2(width / 2, height * 0.95),
     ));
 
@@ -141,5 +148,5 @@ class BrickBreaker extends FlameGame
   }
 
   @override
-  Color backgroundColor() => const Color(0xfff2e8cf);
+  Color backgroundColor() => const Color.fromARGB(255, 0, 0, 0);
 }
