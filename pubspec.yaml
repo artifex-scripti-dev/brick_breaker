@@ -60,7 +60,6 @@ dev_dependencies:
 flutter:
   assets:
     - assets/
-    - assets/audio/sfx/Surfing-on-a-Sine-Wave.mp3
     - assets/audio/sfx/ball_hit.wav
     - assets/audio/sfx/block_destroyed.mp3
     - assets/audio/sfx/powerup.mp3
